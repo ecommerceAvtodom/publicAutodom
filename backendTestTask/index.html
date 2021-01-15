@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Тестовое задание АвтоДом</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" rel="stylesheet">
+    <script crossorigin="anonymous" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="bg-light">
+<div class="container">
+    <div class="py-5 text-center">
+        <h1>Тестовое задание АвтоДом</h1>
+        <p>Выполнение этого тестового задания не является обязательным, но оно позволит нам найти больше точек
+            соприкосновения, понять Ваши навыки, скорость, внимательность и возможности прототипирования, а также сильно
+            повысит Ваши шансы на трудоустройство.</p>
+        <p>Во время выполнения тестового задания Вам необходимо будет засечь чистое время на разработку любым удобным
+            способом. Вы не должны включать в это время подготовку инструментов: разворачивание хостинга, установку и
+            конфигурирование веб-сервера, установку и настройку ide или плагинов для нее, настройку выгрузки и т.д.,
+            длительные перерывы (если у Вас не получается сделать все тестовое за один проход), однако нужно считать все
+            время непосредственной работы над задачей, а не только то время, когда вы пишите код. В подсчитываемое время
+            должно войти: написание кода, время на размышления о том, как решать задачу, время на написание тестов.</p>
+        <p>Для написания кода можете использовать любые IDE и любимые инструменты, а также любой из следующих языков
+            программирования: NodeJS, JS, PHP, GO, Python, C#.</p>
+        <h2>Задание:</h2>
+        <p>Нужно разработать две версии backend сервиса решения проблем клиентов с их компьютерами.</p>
+        <p>Первая версия это прототип. Он может быть написан сколь угодно плохо. Основным критерием успеха будет быстрый
+            запуск и корректная работа не только тестового кейса, но и альтернативных вариантов. </p>
+        <p>Вторая версия это нормальный сервис, хотя бы частично покрытый unit тестами. Покажите в ней свои навыки
+            разработки и проектирования. Закройте эту задачу с таким уровнем качества, при котором Вам было бы не стыдно
+            за нее. В качестве расширенной задачи можно спарсить сервис Microsoft Answers или самостоятельно
+            сгенерировать полноценный набор данных, на котором бы была видна скорость работы вашего сервиса и качество
+            поиска.</p>
+        <p>Минимальный набор данных доступен по <a href="sample.json">ссылке</a>.</p>
+        <h2>Тестовый кейс</h2>
+        <p>На запрос "no sound" должно быть открыто три карточки с категорией "hardware": "check and make sure that the
+            speakers are turned on and that they have power", "check and make sure that the speakers are plugged into
+            the correct audio jack. it should be color coded and the correct audio jack will most likely have green
+            around it", "check and make sure that the volume is turned up and isn't muted within windows"</p>
+        <h2>Тут вы можете проверить работу своего решения</h2>
+        <p>Так как мы ищем backend разработчика, то сделали для Вас небольшую форму, которая бы позволила проверить свое
+            решение без создания фронта. Мы отправим на указанный Вами адрес POST запрос с JSON данными в теле
+            запроса(для php можно получить их - считав php://input). В JSON будут следующие поля: "searchText" - запрос
+            клиента, "answerCount" - количество результатов поиска. Ответ должен быть JSON строкой содержащий массив
+            ответов, каждый из которых состоит из трех полей: "category", "title", "description". Решения должны быть
+            отсортированы в порядке убывания полезности/релевантности.</p>
+        <div class="row g-3">
+            <form class="col-md-6" id="searchAnswerForm">
+                <h3>Введите основные настройки</h3>
+                <div>
+                    <label class="form-label" for="url">Введите url</label>
+                    <input class="form-control" id="url" name="url" required type="text">
+                </div>
+                <div>
+                    <label class="form-label mt-2" for="searchText">Фраза для поиска</label>
+                    <input class="form-control" id="searchText" name="searchText" required type="search">
+                </div>
+                <div>
+                    <label class="form-label mt-2" for="answerCount">Количество возвращаемых записей</label>
+                    <input class="form-control" id="answerCount" name="count" required type="number">
+                </div>
+                <div>
+                    <input class="w-100 btn btn-primary btn-lg mt-2" type="submit" value="Отправить">
+                </div>
+            </form>
+            <div class="col-md-6">
+                <h3>Результаты</h3>
+                <div class="results text-start">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="errorsModalWindow" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ошибка</h5>
+                <button aria-label="Закрыть" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <p id="errors"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function showError(errorText = '') {
+        document.querySelector('#errors').innerHTML = errorText;
+        let errorsModalWindow = new bootstrap.Modal(document.querySelector('#errorsModalWindow'), {
+            backdrop: true
+        });
+        errorsModalWindow.show();
+    }
+
+    function showAnswers(answers = []) {
+        let resultsElement = document.querySelector('.results');
+        let outputHTML = '';
+        for (let answer of answers) {
+            outputHTML += `<div class="card mt-2">
+  <h5 class="card-header">${answer.category}</h5>
+  <div class="card-body">
+    <h5 class="card-title">${answer.title}</h5>
+    <p class="card-text">${answer.description}</p>
+  </div>
+</div>`;
+        }
+        resultsElement.innerHTML = outputHTML;
+    }
+
+    /**
+     * Отправка запроса
+     */
+    document.querySelector('#searchAnswerForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        let url = document.querySelector('#url').value;
+        let searchText = document.querySelector('#searchText').value;
+        let answerCount = parseInt(document.querySelector('#answerCount').value);
+        let request = {
+            searchText: searchText,
+            answerCount: answerCount,
+        };
+        let rawResponse = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/html'
+            },
+            body: JSON.stringify(request)
+        });
+        let responseText = await rawResponse.text();
+        try {
+            let resultJSON = JSON.parse(responseText);
+            if (resultJSON.length > 0) {
+                showAnswers(resultJSON);
+            } else {
+                showAnswers(
+                    [
+                        {
+                            category: 'Общая',
+                            title: 'Решения не найдены',
+                            description: 'Попробуйте изменить запрос или позвоните по телефону службы поддержки'
+                        },
+                    ]
+                )
+            }
+        } catch (e) {
+            showError('Ошибка в данных, которые вернулись с сервера');
+        }
+    });
+</script>
+</body>
+</html>
